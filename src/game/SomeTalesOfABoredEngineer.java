@@ -105,7 +105,11 @@ public class SomeTalesOfABoredEngineer {
 
                         PlayerX = p.getX();
                         PlayerY = p.getY();
-
+//                
+//                s1=String.valueOf(PlayerX);
+//                s2=String.valueOf(PlayerY);
+//                System.out.println(s1 + "    " + s2);
+//                
                         grid.Draw(PlayerX, PlayerY);
                         p.Draw();
 

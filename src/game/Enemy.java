@@ -83,7 +83,7 @@ public class Enemy {
         else
             varY = y - HEIGHT;
         
-        varX = x - PlayerX - HALFSCREENXpix;
+        varX = x - PlayerX + HALFSCREENXpix;
         if (varX < 0)
             varX = GRIDXpix + varX;
         else if(varX > GRIDXpix)
