@@ -25,7 +25,7 @@ import org.newdawn.slick.Color;
 
 import org.newdawn.slick.TrueTypeFont;
 
-public class SomeTailsOfABoredEngineer {
+public class SomeTalesOfABoredEngineer {
 
     private final int speed = 5;
     private final float halfSpeed = (float) (speed / sqrt(2));
@@ -51,7 +51,7 @@ public class SomeTailsOfABoredEngineer {
 
     private State state = State.GAME;
 
-    public SomeTailsOfABoredEngineer() throws IOException {
+    public SomeTalesOfABoredEngineer() throws IOException {
 
         BeginSession();
 
@@ -226,7 +226,7 @@ public class SomeTailsOfABoredEngineer {
     }
 
     public static void main(String[] args) throws IOException {
-        new SomeTailsOfABoredEngineer();
+        new SomeTalesOfABoredEngineer();
     }
 
 }
