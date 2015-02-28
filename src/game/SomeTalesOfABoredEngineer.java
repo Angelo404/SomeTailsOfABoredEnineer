@@ -74,80 +74,83 @@ public class SomeTalesOfABoredEngineer {
 
             keyboardInput();
 
-            
             switch (state) {
                 case INTRO:
                     glDisable(GL_TEXTURE_2D);
                     GL11.glColor3f(1.0f, 0.0f, 0.0f);
                     glRectf(0, 0, WIDTH, HEIGHT);
                     glEnable(GL_TEXTURE_2D);
-                    font.drawString(100, HEIGHT+10+introCount, "In a galaxy far far away", Color.black);
-                    font.drawString(100, HEIGHT+35+introCount, "The empire sends people, as slaves in a colony,", Color.black);
-                    font.drawString(100, HEIGHT+60+introCount, "The colony is one of the moons of planet 34B of galaxy 007.", Color.black);
+                    font.drawString(100, HEIGHT + 10 + introCount, "In a galaxy far far away", Color.black);
+                    font.drawString(100, HEIGHT + 35 + introCount, "The empire sends people, as slaves in a colony,", Color.black);
+                    font.drawString(100, HEIGHT + 60 + introCount, "The colony is one of the moons of planet 34B of galaxy 007.", Color.black);
                     glColor3f(1, 1, 1);
                     introCount -= 1;
                     break;
-                   
+
                 case CREDITS:
                     glDisable(GL_TEXTURE_2D);
                     GL11.glColor3f(1.0f, 0.0f, 0.0f);
                     glRectf(0, 0, WIDTH, HEIGHT);
                     glEnable(GL_TEXTURE_2D);
-                    font.drawString(100, HEIGHT+10+creditsCount, "People invloved with this marvoulous project", Color.black);
-                    font.drawString(100, HEIGHT+35+creditsCount, "Developers", Color.black);
-                    font.drawString(100, HEIGHT+60+creditsCount, "Silver Raven", Color.black);
-                    font.drawString(100, HEIGHT+85+creditsCount, "St0rmy", Color.black);
+                    font.drawString(100, HEIGHT + 10 + creditsCount, "People invloved with this marvoulous project", Color.black);
+                    font.drawString(100, HEIGHT + 35 + creditsCount, "Developers", Color.black);
+                    font.drawString(100, HEIGHT + 60 + creditsCount, "Silver Raven", Color.black);
+                    font.drawString(100, HEIGHT + 85 + creditsCount, "St0rmy", Color.black);
                     glColor3f(1, 1, 1);
                     creditsCount -= 1;
                     break;
-                    
+
                 case GAME:
                     if (!gamePaused) {
 
-                PlayerX = p.getX();
-                PlayerY = p.getY();
+                        PlayerX = p.getX();
+                        PlayerY = p.getY();
+//                
+//                s1=String.valueOf(PlayerX);
+//                s2=String.valueOf(PlayerY);
+//                System.out.println(s1 + "    " + s2);
+//                
+                        grid.Draw(PlayerX, PlayerY);
+                        p.Draw();
 
-                grid.Draw(PlayerX, PlayerY);
-                p.Draw();
-
-                for (int w = 0; w < enemies.size(); ++w) {
-                    Enemy tmpEnemy = enemies.get(w);
-                    tmpEnemy.Draw(PlayerX, PlayerY);
-                }
-                for (int i = 0; i < bullets.size(); ++i) {
-                    Projectile bullet = bullets.get(i);
-                    bullet.Draw(PlayerX, PlayerY);
-                    bullet.Update();
-                    BulletX = bullet.getX();
-                    BulletY = bullet.getY();
-                    if (bullet.DeltaDist(BulletX, BulletY)) {
-                        bullets.remove(i);
-                        continue;
-                    }
-                    for (int q = 0; q < enemies.size(); ++q) {
-                        Enemy tmpEnemy = enemies.get(q);
-                        if (b.isHit(tmpEnemy.getX(), tmpEnemy.getY(), BulletX, BulletY)) {
-                            bullets.remove(i);
-                            enemies.remove(q);
+                        for (int w = 0; w < enemies.size(); ++w) {
+                            Enemy tmpEnemy = enemies.get(w);
+                            tmpEnemy.Draw(PlayerX, PlayerY);
                         }
+                        for (int i = 0; i < bullets.size(); ++i) {
+                            Projectile bullet = bullets.get(i);
+                            bullet.Draw(PlayerX, PlayerY);
+                            bullet.Update();
+                            BulletX = bullet.getX();
+                            BulletY = bullet.getY();
+                            if (bullet.DeltaDist(BulletX, BulletY)) {
+                                bullets.remove(i);
+                                continue;
+                            }
+                            for (int q = 0; q < enemies.size(); ++q) {
+                                Enemy tmpEnemy = enemies.get(q);
+                                if (b.isHit(tmpEnemy.getX(), tmpEnemy.getY(), BulletX, BulletY)) {
+                                    bullets.remove(i);
+                                    enemies.remove(q);
+                                }
+                            }
+                        }
+                        mousex = Mouse.getX() + PlayerX - HALFSCREENXpix - TOCENTER;
+
+                        if (PlayerY < HALFSCREENYpix) {
+                            mousey = HEIGHT - Mouse.getY() - TOCENTER;
+                        } else if (PlayerY > GRIDYpix - HALFSCREENYpix) {
+                            mousey = GRIDYpix - Mouse.getY() - TOCENTER;
+                        } else {
+                            mousey = PlayerY + HALFSCREENYpix - Mouse.getY() - TOCENTER;
+                        }
+
+                        if (Mouse.isButtonDown(0)) {
+                            Projectile bullet = new Projectile(LoadTexture("projectile_32"), PlayerX, PlayerY, TEXTUREWIDTH, TEXTUREHEIGHT, speed, halfSpeed, mousex, mousey);
+                            bullets.add(bullet);
+                        }
+
                     }
-                }
-                mousex = Mouse.getX() + PlayerX - HALFSCREENXpix - TOCENTER;
-
-                if (PlayerY < HALFSCREENYpix) {
-                    mousey = HEIGHT - Mouse.getY() - TOCENTER;
-                } else if (PlayerY > GRIDYpix - HALFSCREENYpix) {
-                    mousey = GRIDYpix - Mouse.getY() - TOCENTER;
-                } else {
-                    mousey = PlayerY + HALFSCREENYpix - Mouse.getY() - TOCENTER;
-                }
-
-                if (Mouse.isButtonDown(0)) {
-                    Projectile bullet = new Projectile(LoadTexture("projectile_32"), PlayerX, PlayerY, TEXTUREWIDTH, TEXTUREHEIGHT, speed, halfSpeed, mousex, mousey);
-                    bullets.add(bullet);
-                }
-
-            }
                     break;
                 case MENU:
                     DrawMenu(LoadTexture("menu"));
@@ -161,7 +164,6 @@ public class SomeTalesOfABoredEngineer {
 
         Display.destroy();
     }
-
 
     private void keyboardInput() {
         while (Keyboard.next()) {
@@ -179,7 +181,7 @@ public class SomeTalesOfABoredEngineer {
                             state = State.GAME;
                         } else if (state == State.GAME) {
                             state = State.CREDITS;
-                        } else if (state == State.CREDITS){
+                        } else if (state == State.CREDITS) {
                             state = State.INTRO;
                         }
                         break;
